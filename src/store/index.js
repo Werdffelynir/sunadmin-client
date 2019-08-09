@@ -7,7 +7,11 @@ import * as mutations from './mutations';
 Vue.use(Vuex);
 
 const state = {
-    anchorMenu: []
+    anchorMenu: [],
+    isAuth: false,
+    ui: {
+        sidebar: true
+    }
 };
 
 const store = new Vuex.Store({

@@ -18,6 +18,8 @@
                         <a href="/#/some-else">Error 404</a>
                     </li>
                 </ul>
+
+                <div><input type="text" v-model="textSearch"> <button v-on:click="buttonClick"> button </button> </div>
             </div>
 
             <div class="valign-top">
@@ -43,8 +45,9 @@
 </template>
 
 <script>
-    const headerTitle = 'Demo Client';
+    import store from './store/index';
 
+    const headerTitle = 'Demo Client';
     const menuItems = {
         home: '',
         login: 'login',
@@ -60,12 +63,28 @@
             return {
                 headerTitle: headerTitle,
                 menuItems: menuItems,
-                menuItemClick: (e) => {
-                    vueAppComponent.headerTitle = headerTitle + ' on: ' + e.target.textContent
-                },
                 hash: () => location.hash.slice(2),
                 error404: () => !Object.values(menuItems).includes(vueAppComponent.hash()),
+                textSearch: '',
             };
+        },
+
+        methods: {
+            // for event
+            buttonClick (e) {
+                e.target.parentNode.removeChild(e.target);
+            },
+            menuItemClick (e) {
+                this.headerTitle = headerTitle + ' on: ' + e.target.textContent
+            },
+        },
+
+        watch: {
+            // textSearch: (value) => { this } // it wrong code - this is undefined
+            textSearch  (value)  {
+                const max = 5;
+                this.textSearch = value.length > max ? value.slice(0, max) : value;
+            }
         },
 
         computed: {
