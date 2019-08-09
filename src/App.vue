@@ -1,30 +1,37 @@
 <template>
     <div id="app">
-        <!--  <img src="./assets/logo.png"> -->
+
         <div class="table">
 
             <div id='sidebar' class="width-25 valign-top">
-
-                <div class="text-center">
-                    <img src="./public/images/logo.png" >
+                <div v-bind:class="[true ? 'text-center' : 'text-left']">
+                    <img alt="logo" src="./public/images/logo.png" >
                 </div>
-
                 <ul>
-                    <li><a href="#/">Home</a></li>
-                    <li><a href="#/login">Login</a></li>
-                    <li><a href="#/profile">Profile</a></li>
-                    <li><a href="#/404">404</a></li>
+                    <li v-for="(value, key) in menuItems" v-on:click="menuItemClick">
+                        <a v-bind:class="{active: value === hash()}"
+                           v-bind:href="'/#/' + value" >
+                            {{ key.charAt(0).toUpperCase() + key.slice(1)}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/#/some-else">Error 404</a>
+                    </li>
                 </ul>
-
             </div>
 
             <div class="valign-top">
 
                 <div id='header'>
-                    <h1>Demo Client</h1>
+                    <div v-if="headerTitle">
+                        <h1>{{headerTitle}}</h1>
+                    </div>
+                    <div v-else>
+                        <h1>No name</h1>
+                    </div>
                 </div>
 
-                <div id='content' >
+                <div id='content' v-bind:style="{backgroundColor: '#ccc', color: error404() ? 'red' : ''}">
                     <router-view></router-view>
                 </div>
 
@@ -34,6 +41,39 @@
 
     </div>
 </template>
+
+<script>
+    const headerTitle = 'Demo Client';
+
+    const menuItems = {
+        home: '',
+        login: 'login',
+        profile: 'profile',
+
+    };
+
+    export default {
+        name: 'app',
+
+        data : (vueAppComponent) => {
+
+            return {
+                headerTitle: headerTitle,
+                menuItems: menuItems,
+                menuItemClick: (e) => {
+                    vueAppComponent.headerTitle = headerTitle + ' on: ' + e.target.textContent
+                },
+                hash: () => location.hash.slice(2),
+                error404: () => !Object.values(menuItems).includes(vueAppComponent.hash()),
+            };
+        },
+
+        computed: {
+        },
+
+    }
+
+</script>
 
 <style>
     a {
@@ -66,12 +106,8 @@
     #content {
         color: #000;
     }
-</style>
 
-<script>
-
-    export default {
-        name: 'app',
+    .active {
+        background-color: #4f4f4f;
     }
-
-</script>
+</style>
