@@ -1,0 +1,8 @@
+export const SET_ITEM_MUTATION = 'SET_ITEM_MUTATION';
+export const HIDE_ITEM_MUTATION = 'HIDE_ITEM_MUTATION';
+
+
+
+
+
+

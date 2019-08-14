@@ -16,5 +16,13 @@
                 title: "Component - Profile",
             }
         },
+
+        methods: {
+            actionName (e) {},
+        },
+
+        computed: { },
+
+        mounted() {},
     }
 </script>

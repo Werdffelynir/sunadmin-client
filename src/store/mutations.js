@@ -1,20 +1,19 @@
-export const setAnchorMenu = (state, data) => {
-    state.anchorMenu.push(data)
+export const mutationAddItem = (state, data) => {
+    state.item.push(data)
 };
 
-export const updateAnchorMenuItem = (state, data) => {
-    let tIndex = state.anchorMenu.findIndex((element) => {
+export const mutationUpdateItem = (state, data) => {
+    let tIndex = state.item.findIndex((element) => {
         return element.id === data.id
     });
-    state.anchorMenu[tIndex] = data
+    state.item[tIndex] = data
 };
 
-export const resetAnchorActive = (state) => {
-    for (let i = 0; i < state.anchorMenu.length; i++) {
-        state.anchorMenu[i].isActive = false
-    }
+export const mutationStatusItem = (state, index, status) => {
+    state.item[index].active = !!status
 };
 
-export const setAnchorActive = (state, index) => {
-    state.anchorMenu[index].isActive = true
+
+export const mutationCount = (state) => {
+    state.count ++;
 };

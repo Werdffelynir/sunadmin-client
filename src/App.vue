@@ -52,7 +52,6 @@
         home: '',
         login: 'login',
         profile: 'profile',
-
     };
 
     export default {
@@ -65,7 +64,7 @@
                 menuItems: menuItems,
                 hash: () => location.hash.slice(2),
                 error404: () => !Object.values(menuItems).includes(vueAppComponent.hash()),
-                textSearch: '',
+                textSearch: 'Search',
             };
         },
 

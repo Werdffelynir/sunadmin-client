@@ -6,9 +6,9 @@ import App from './App.vue';
 import './styles/cssgrid.css';
 import './styles/style.css';
 
+
 Vue.config.productionTip = false;
 Vue.use(VueResource);
-
 
 new Vue({
     el: '#app',
@@ -16,6 +16,6 @@ new Vue({
     store,
     template: '<App />',
     components: {
-        App
+        App,
     }
 });
