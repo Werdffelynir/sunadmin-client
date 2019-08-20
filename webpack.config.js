@@ -34,6 +34,21 @@ module.exports = {
                 ]
             },
             {
+                test: /\.s(c|a)ss$/,
+                use: [
+                    'vue-style-loader',
+                    'css-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            implementation: require('sass'),
+                            fiber: require('fibers'),
+                            indentedSyntax: true // optional
+                        }
+                    }
+                ]
+            },
+            {
                 test: /\.vue$/,
                 loader: 'vue-loader'
             },
@@ -65,13 +80,17 @@ module.exports = {
                     'xml-loader'
                 ]
             }
-        ]
+        ],
+        // loaders: [{
+        //     test: /\.jsx?$/,
+        //     loader: 'babel-loader'
+        // }]
     },
     resolve: {
         alias: {
-            'vue$': 'vue/dist/vue.esm.js'
+            'vue$': 'vue/dist/vue.esm.js',
         },
-        extensions: ['.js', '.jsx', '.scss']
+        extensions: [ '.js', '.jsx', '.scss']
     },
     plugins: [
         new VueLoaderPlugin(),

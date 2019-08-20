@@ -6,6 +6,7 @@
 .env
 .env.backup
 npm-debug.log
+package-lock.json
 /.idea
 
 

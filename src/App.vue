@@ -1,131 +1,76 @@
 <template>
     <div id="app">
+        <VApp>
+            <VNavigationDrawer app :width="sidebar ? 250 : 0">
+                <Sidebar />
+            </VNavigationDrawer>
 
-        <div class="table">
-
-            <div id='sidebar' class="width-25 valign-top">
-                <div v-bind:class="[true ? 'text-center' : 'text-left']">
-                    <img alt="logo" src="./public/images/logo.png" >
+            <VAppBar app >
+                <div class="menu">
+                    <router-link to="/">Dashboard</router-link>
                 </div>
-                <ul>
-                    <li v-for="(value, key) in menuItems" v-on:click="menuItemClick">
-                        <a v-bind:class="{active: value === hash()}"
-                           v-bind:href="'/#/' + value" >
-                            {{ key.charAt(0).toUpperCase() + key.slice(1)}}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/#/some-else">Error 404</a>
-                    </li>
-                </ul>
+                <VSpacer></VSpacer>
+                <VBtn v-on:click="sidebarToggle"> <MenuIcon /> </VBtn>
+            </VAppBar>
 
-                <div><input type="text" v-model="textSearch"> <button v-on:click="buttonClick"> button </button> </div>
-            </div>
-
-            <div class="valign-top">
-
-                <div id='header'>
-                    <div v-if="headerTitle">
-                        <h1>{{headerTitle}}</h1>
-                    </div>
-                    <div v-else>
-                        <h1>No name</h1>
-                    </div>
-                </div>
-
-                <div id='content' v-bind:style="{backgroundColor: '#ccc', color: error404() ? 'red' : ''}">
+            <VContent>
+                <VContainer fluid>
                     <router-view></router-view>
-                </div>
+                </VContainer>
+            </VContent>
 
-            </div>
-
-        </div>
-
+            <VFooter app>
+                <VBtn icon> </VBtn>
+            </VFooter>
+        </VApp>
     </div>
 </template>
 
-<script>
-    import store from './store/index';
+<style>
 
-    const headerTitle = 'Demo Client';
-    const menuItems = {
-        home: '',
-        login: 'login',
-        profile: 'profile',
-    };
+    .menu a {
+        text-transform: uppercase;
+        font-size: 110%;
+        padding: 6px 15px;
+        text-decoration: none;
+    }
+
+    .menu a.router-link-exact-active {
+        color: #b47400;
+    }
+
+</style>
+
+<script>
+
+    import Sidebar from './components/common/Sidebar.vue';
 
     export default {
-        name: 'app',
 
-        data : (vueAppComponent) => {
+        name: 'App',
 
+        data: (vueAppComponent) => {
             return {
-                headerTitle: headerTitle,
-                menuItems: menuItems,
-                hash: () => location.hash.slice(2),
-                error404: () => !Object.values(menuItems).includes(vueAppComponent.hash()),
-                textSearch: 'Search',
+                sidebar: false,
             };
         },
 
         methods: {
-            // for event
-            buttonClick (e) {
-                e.target.parentNode.removeChild(e.target);
-            },
-            menuItemClick (e) {
-                this.headerTitle = headerTitle + ' on: ' + e.target.textContent
+            sidebarToggle() {
+                this.sidebar = !this.sidebar;
             },
         },
 
         watch: {
-            // textSearch: (value) => { this } // it wrong code - this is undefined
-            textSearch  (value)  {
-                const max = 5;
-                this.textSearch = value.length > max ? value.slice(0, max) : value;
+            input_event(value) {
             }
         },
 
-        computed: {
+        computed: {},
+        components: {
+            Sidebar,
         },
 
     }
 
 </script>
-
-<style>
-    a {
-        color: #a6c103;
-    }
-    a:hover {
-        color: #dbff03;
-    }
-
-    #sidebar {
-        background-color: #3a3a3a;
-        color: #d5e5ee;
-    }
-    #sidebar a {
-        text-decoration: none;
-        display: block;
-        padding: 5px 15px;
-        color: #a6c103;
-    }
-    #sidebar a:hover {
-        background-color: #4f4f4f;
-    }
-
-
-    #header {
-        background-color: #3a3a3a;
-        color: #d5e5ee;
-    }
-
-    #content {
-        color: #000;
-    }
-
-    .active {
-        background-color: #4f4f4f;
-    }
-</style>

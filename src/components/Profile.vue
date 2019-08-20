@@ -18,11 +18,13 @@
         },
 
         methods: {
-            actionName (e) {},
+            action (e) {},
         },
 
         computed: { },
 
         mounted() {},
+
+        components: {},
     }
 </script>

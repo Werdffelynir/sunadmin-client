@@ -4,13 +4,6 @@
     </div>
 </template>
 
-<style>
-    .error404 {
-        text-align: center;
-        margin-top: 25%;
-    }
-</style>
-
 <script>
     export default {
 
