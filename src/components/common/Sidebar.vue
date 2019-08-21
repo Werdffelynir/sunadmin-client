@@ -1,8 +1,6 @@
 <template>
     <div>
-        <div class="text-center mt-10">
-            <SettingsIcon size="12" :decorative="true"></SettingsIcon>
-        </div>
+        <div class="text-center mt-10"></div>
 
         <VList dense rounded>
             <span v-for="item in items">

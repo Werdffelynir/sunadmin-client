@@ -7,7 +7,7 @@
 
             <VAppBar app >
                 <div class="menu">
-                    <router-link to="/">Dashboard</router-link>
+                    <router-link to="/">Home page</router-link>
                 </div>
                 <VSpacer></VSpacer>
                 <VBtn v-on:click="sidebarToggle"> <MenuIcon /> </VBtn>
