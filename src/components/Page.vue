@@ -91,16 +91,21 @@
         data() {
             return {
                 title: "Page",
-                cards: cards,
+
             }
         },
 
         methods: {},
 
         computed: {
+            cards () {
+                return this.$store.getters.getCard
+            },
         },
 
-        mounted() {},
+        mounted() {
+            this.$store.dispatch('loadDataServer');
+        },
 
         components: {
             Card,
