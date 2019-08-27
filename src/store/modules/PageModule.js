@@ -43,7 +43,7 @@ const PageModule = {
             fetch(' http://localhost:3005/chunks?key=page')
                 .then((response) => response.json())
                 .then((response) => {
-
+                    console.log('response', response)
                     if (response.ok && response.result) {
                         const result = JSON.parse(response.result).data || [];
                         const data = {cards: []};
