@@ -1,59 +1,64 @@
 <template>
     <div id='page'>
 
-        <h1 class="text-center">{{ title }}</h1>
+        <div>
+            <button class="v-btn mt-4" v-on:click="changeLanguage">
+                <span :class="language === 'en' ? 'language' : ''">EN</span>
+                | <span :class="language === 'ru' ? 'language' : ''">RU</span>
+            </button>
+        </div>
+
+        <h1 class="text-center">{{ header.title }}</h1>
+        <p class="text-center">{{ header.body }}</p>
 
         <section id="three_cards">
             <div>
                 <span v-for="card in cards">
                     <Card :title="card.title">
-                        <p>{{ card.text }}</p>
+                        <p>{{ card.body }}</p>
                     </Card>
                 </span>
             </div>
         </section>
 
-        <section id="intro">
-            <h1>Mobile Adaptive</h1>
+        <section id="mobile">
+            <h1>{{ mobileAdaptive.title }}</h1>
             <p class="text-justify">
-                Morbi mattis ullamcorper velit. Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla. Fusce convallis metus id felis luctus adipiscing. Aenean massa. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.
-                Nulla consequat massa quis enim. Praesent venenatis metus at tortor pulvinar varius. Donec venenatis vulputate lorem. Phasellus accumsan cursus velit. Pellentesque ut neque.
+                {{ mobileAdaptive.body }}
             </p>
         </section>
 
-        <section id="more_info">
-            <h1>Applications Creators</h1>
+        <section id="applications">
 
+            <h1>{{ applicationsCreators.title }}</h1>
             <p class="text-justify">
-                Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla. Fusce convallis metus id felis luctus adipiscing. Aenean massa. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.
-                Nulla consequat massa quis enim. Praesent venenatis metus at tortor pulvinar varius. Donec venenatis vulputate lorem. Phasellus accumsan cursus velit. Pellentesque ut neque.
+                {{ applicationsCreators.body }}
             </p>
 
-            <VRow class="text-center">
+            <VRow v-if="Array.isArray(applicationsDevelopers)" class="text-center">
                 <VCol>
-                    <img src="../public/images/icon.png" :width="168" alt="DS">
-                    <p>Author - 1</p>
-                    <p>Developer - 1</p>
+                    <img :src="'../public/images/' + findApplicationsDeveloper('author_1_photo').value" :width="168" alt="Developer">
+                    <p>{{ findApplicationsDeveloper('author_1_name').value }} </p>
+                    <p>{{ findApplicationsDeveloper('author_1_post').value }} </p>
                 </VCol>
                 <VCol>
-                    <img src="../public/images/icon.png" :width="168" alt="DS">
-                    <p>Author - 2</p>
-                    <p>Developer - 2</p>
+                    <img :src="'../public/images/' + findApplicationsDeveloper('author_2_photo').value" :width="168" alt="Developer">
+                    <p>{{ findApplicationsDeveloper('author_2_name').value }} </p>
+                    <p>{{ findApplicationsDeveloper('author_2_post').value }} </p>
                 </VCol>
                 <VCol>
-                    <img src="../public/images/icon.png" :width="168" alt="DS">
-                    <p>Author - 3</p>
-                    <p>Developer - 3</p>
+                    <img :src="'../public/images/' + findApplicationsDeveloper('author_1_photo').value" :width="168" alt="Developer">
+                    <p>{{ findApplicationsDeveloper('author_3_name').value }} </p>
+                    <p>{{ findApplicationsDeveloper('author_3_post').value }} </p>
                 </VCol>
             </VRow>
 
         </section>
 
-        <section id="services">
-            <h1>Environment for application</h1>
+        <section id="environment">
+            <h1>{{ environmentForApplication.title }}</h1>
             <p class="text-justify">
-                Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla. Fusce convallis metus id felis luctus adipiscing. Aenean massa. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.
-                Nulla consequat massa quis enim. Praesent venenatis metus at tortor pulvinar varius. Donec venenatis vulputate lorem. Phasellus accumsan cursus velit. Pellentesque ut neque.
+                {{ environmentForApplication.body }}
             </p>
         </section>
 
@@ -63,24 +68,6 @@
 <script>
     import Card from './common/Card.vue';
 
-    const cards = [
-        {
-            id: 1,
-            title: 'Card One',
-            text: 'Ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis cumque earum, id ipsam saepe totam. Assumenda beatae delectus eligendi eveniet excepturi, illo ipsam itaque omnis quo saepe ullam ut? Id?'
-        },
-        {
-            id: 2,
-            title: 'Card One',
-            text: 'Dolores esse fuga laudantium quasi vero! Alias autem error, ex explicabo hic illum magnam obcaecati. Assumenda ea id, iure non saepe veniam.'
-        },
-        {
-            id: 3,
-            title: 'Card Three',
-            text: 'Blanditiis cumque earum, id ipsam saepe totam. Assumenda beatae delectus eligendi eveniet excepturi, hic illum magnam obcaecati. Assumenda ea id, iure non saepe veniam.'
-        },
-    ];
-
 
     export default {
 
@@ -89,23 +76,35 @@
         props: [],
 
         data() {
+            this.$store.dispatch('loadDataServer');
             return {
-                title: "Page",
 
             }
         },
 
-        methods: {},
-
         computed: {
-            cards () {
-                return this.$store.getters.getCard
+            cards () { return this.$store.getters.getCards },
+            header () { return this.$store.getters.getHeader },
+            mobileAdaptive () { return this.$store.getters.getMobileAdaptive },
+            applicationsCreators () { return this.$store.getters.getApplicationsCreators },
+            applicationsDevelopers () { return JSON.parse(this.$store.getters.getApplicationsCreators.options) || [] },
+            environmentForApplication () { return this.$store.getters.getEnvironmentForApplication },
+            language () { return this.$store.getters.getLanguage },
+        },
+
+        methods: {
+            findApplicationsDeveloper (key) {
+                return this.applicationsDevelopers.find(it => it.name === key) || { value: null }
+            },
+            changeLanguage () {
+                this.$store.commit('setLanguage', this.$store.getters.getLanguage === 'en' ? 'ru' : 'en');
+                this.$store.dispatch('loadDataServer');
             },
         },
 
-        mounted() {
-            this.$store.dispatch('loadDataServer');
-        },
+        created () {},
+
+        mounted() {},
 
         components: {
             Card,
@@ -117,5 +116,9 @@
 <style>
     section {
         min-height: 100vh;
+    }
+
+    .language {
+        color: #b47400;
     }
 </style>
