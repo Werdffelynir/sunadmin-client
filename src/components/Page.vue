@@ -2,14 +2,22 @@
     <div id='page'>
 
         <div>
-            <button class="v-btn mt-4" v-on:click="changeLanguage">
-                <span :class="language === 'en' ? 'language' : ''">EN</span>
-                | <span :class="language === 'ru' ? 'language' : ''">RU</span>
+            <button class="v-btn mt-4" v-on:click="createScreenshots">
+                Create Screenshots
             </button>
         </div>
 
-        <h1 class="text-center">{{ header.title }}</h1>
-        <p class="text-center">{{ header.body }}</p>
+        <div>
+            <button class="v-btn mt-4" v-on:click="changeLanguage">
+                <span :class="language === 'en' ? 'language' : ''">EN</span>
+              | <span :class="language === 'ru' ? 'language' : ''">RU</span>
+            </button>
+        </div>
+
+        <div id="header">
+            <h1 class="text-center">{{ header.title }}</h1>
+            <p class="text-center">{{ header.body }}</p>
+        </div>
 
         <section id="three_cards">
             <div>
@@ -66,6 +74,7 @@
 </template>
 
 <script>
+    import screenshot from '../plugins/screenshot';
     import Card from './common/Card.vue';
 
 
@@ -99,6 +108,9 @@
             changeLanguage () {
                 this.$store.commit('setLanguage', this.$store.getters.getLanguage === 'en' ? 'ru' : 'en');
                 this.$store.dispatch('loadDataServer');
+            },
+            createScreenshots () {
+                screenshot.shot();
             },
         },
 

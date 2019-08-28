@@ -3,7 +3,7 @@ import store from './store';
 import VueResource from 'vue-resource';
 import router from './router/index';
 import App from './App.vue';
-import vuetify from './plugins/vuetify'
+import vuetify from './plugins/vuetify';
 import './styles/style.css';
 
 
